@@ -3,48 +3,56 @@ const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const app = express();
 //const https = require('https');
+const joi = require('joi');
+const { build } = require('joi');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const port = 9001
 
-/**
- * Weather API
- */
-const weatherApiKey = '16a17a5b219940e093e213034201211'
-const weatherApiBaseUrl = 'http://api.weatherapi.com/v1'
-const weatherCache = {
-  current: null,
-  forecast: null
+const bd = {
+  current: {
+    temp: 33,
+    condition: {
+      text: 'Soleado',
+      icon: 'images/sunny.png'
+    },
+    wind: 13,
+    windDir: "N",
+    humidity: 19
+  },
+  forecast: [
+    {
+      date: '2020-11-27',
+      temp: 33,
+      condition: {
+        text: 'Soleado',
+        icon: 'images/sunny.png'
+      },
+      wind: 13,
+      windDir: "N",
+      humidity: 19
+    }
+  ]
 }
 
 /**
  * Current
  */
-app.get('/current', (req, res) => {
-  const { params } = req
-  let data = ''
-
-  if (!weatherCache.current) {
-    fetch(`${weatherApiBaseUrl}/current.json?key=${weatherApiKey}&q=Neuquen`)
-    .then(res => res.json())
-    .then((json) => {
-      console.log('Return fetched from weather api')
-      weatherCache.current = json
-      res.send(weatherCache.current)
-    })
+app.get('/current.json', (req, res) => {
+  if (!bd.current) {
+    res.sendStatus(204)
   } else {
-    console.log('Return cached current.json response')
-    res.send(weatherCache.current)
+    res.send(bd.current)
   }
-});
+})
 
 /**
  * Forecast
  */
 app.get('/forecast', (req, res) => {
-  const { params } = req
+  /*const { params } = req
   let data = ''
 
   if (!weatherCache.forecast) {
@@ -58,38 +66,12 @@ app.get('/forecast', (req, res) => {
   } else {
     console.log('Return cached forecast.json response')
     res.send(weatherCache.forecast)
-  }
-});
+  }*/
+})
 
 app.get('/', (req, res) => {
   return res.sendStatus(400)
-    /*fetch(`https://api.weatherapi.com/v1/current.json?key=${key}&q=Neuquen`)
-        .then(r => r.json())
-        .then((json) => {
-            console.log(json)
-            res.send(json)
-        })*/
-    
-    /*https.get(`https://api.weatherapi.com/v1/current.json?key=${key}&q=Neuquen`, (resp) => {
-      
-        // A chunk of data has been recieved.
-        resp.on('data', (chunk) => {
-          data += chunk;
-        });
-      
-        // The whole response has been received. Print out the result.
-        resp.on('end', () => {
-            let obj = JSON.parse(data);
-
-            console.log(data);
-            console.log(obj.explanation);
-          res.send(obj)
-        });
-      
-      }).on("error", (err) => {
-        console.log("Error: " + err.message);
-      });*/
-  })
+})
 
 app.listen(port, () => {
     console.log(`Listening at http://localhost:${port}`)

@@ -1,0 +1,210 @@
+/*
+ * Laboratorio de Programación 2020
+ * Trabajo Práctico 02
+ * 
+ * - Usar solo ingles o español
+ * - Pasar atributos de tamaño a CSS
+ */
+ @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;800&display=swap');
+
+ body {
+	font-family: "Open Sans", "Helvetica", "Arial", sans-serif;
+	color: #fafafa;
+	margin: 0;
+	padding: 0;
+	background: #1c2127;
+	background-image: url("../images/cloudy.jpg");
+	background-position: top center;
+	background-attachment: fixed;
+}
+
+main {
+	max-width: 960px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+main h1 {
+	font-weight: 800;
+	margin: 1em;
+	text-shadow: #1c2127 1px 1px;
+}
+
+.cardActual {
+	background-color: #76babb;
+}
+
+.cardActual .titulo {
+	padding: .6em .6em 0 .6em;
+	margin: 0;
+	display: flex;
+	font-size: 2em;
+	font-weight: 600;
+	text-shadow: #325F7E 1px 1px;
+}
+
+.cardActual .hoy {
+	display: flex;
+	padding: .6em 1em;
+}
+
+.cardActual .icon,
+.cardActual .temp {
+	margin: 0;
+}
+
+.cardActual .icon {
+	margin-right: 2em;
+}
+
+.cardActual .temp {
+	flex-grow: 1;
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
+}
+
+.cardActual .temp h1 {
+	font-size: 4em;
+	margin: .6em 0;
+	margin-bottom: 0;
+}
+
+.cardActual .temp h2 {
+	font-size: 4em;
+	font-weight: 600;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.cardActual .temp h3 {
+	margin-top: 0;
+}
+
+.cardActual .temp h1,
+.cardActual .temp h2,
+.cardActual .temp h3 {
+	text-align: center;
+	text-shadow: #325F7E 1px 1px;
+}
+
+/* Contenedor de tarjetas */
+.section {
+	background: #1E252B;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1em;
+	box-shadow: 0 .2em 4em rgba(0,0,0,.8);
+	border-radius: 4px;
+}
+  
+/**
+ * Estilo de listado de próximos 10 días
+ */
+
+.section .card {
+	background-color: #313A44;
+	padding: 1em;
+	margin: 1em;
+	border-radius: 4px;
+	transition: box-shadow background-image;
+	transition-duration: .4s;
+	display: flex;
+	align-items: center;
+}
+
+.section .card:hover {
+	background-color: #325F7E;
+	transition: box-shadow background-image;
+	transition-duration: .4s;
+	box-shadow: 0 2px 38px rgba(0,0,0,.8);
+}
+/* Columna */
+.section .card .col {
+	flex-grow: 1;
+	display: flex;
+	align-items: center;
+}
+/* Columnas especíificas */
+.section .card .col.date,  /* Columna de Fecha */
+.section .card .col.temp,  /* Columna de Temperatura */
+.section .card .col.humid, /* Columna de Humedad */
+.section .card .col.wind { /* Columna de Viento */
+	display: flex;
+	flex-grow: 0;
+	padding: .4em .8em;
+	width: 6em;
+	justify-content: flex-start;
+}
+
+.section .card .col.temp,
+.section .card .col.humid {
+	width: 5em;
+}
+
+.section .card .col.wind {
+	width: 9em;
+}
+/* Temperatura */
+.section .card .col.temp .deg {
+	font-weight: 800;
+	font-size: 1.5em;
+}
+/* Columna de detalle del tiempo */
+.section .card .col.detail {
+	display: flex;
+	justify-content: flex-start;
+}
+/* Iconos dentro de las columnas */
+.section .card .col .icon {
+	margin: 0;
+	margin-right: .4em;
+}
+
+.section .card.btn {
+	text-align: center;
+	color: #d9d9d9;
+	font-size: 1.2em;
+	font-weight: bold;
+	justify-content: center;
+	text-decoration: none;
+}
+
+.section .card.btn:hover {
+	background-color: #113F5A;
+	color: #fafafa;
+}
+
+/* Menu principal */
+#nav {
+	background-color: #1c2127;
+	box-shadow: 0 .1em 2em rgba(0,0,0,.8);
+}
+
+#nav ul {
+	margin: auto;
+	display: flex;
+	max-width: 960px;
+	justify-content: flex-start;
+	list-style: none;
+}
+
+#nav ul li {
+	display: flex;
+}
+
+#nav ul li a {
+	font-size: 1.2em;
+	font-weight: 600;
+	text-decoration: none;
+	color: #d9d9d9;
+	display: block;
+	padding: 1em;
+}
+  
+#nav ul li a:hover {
+	background-color: #113F5A;
+	color: #fafafa;
+}

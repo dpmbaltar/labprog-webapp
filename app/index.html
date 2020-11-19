@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+	<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Clima - Hoy</title>
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+    <!-- build:css styles/vendor.css -->
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+    <!-- endbuild -->
+		<!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+	</head>
+	<body>
+    <!--[if IE]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+		<!-- Menu principal -->
+		<nav id="nav">
+			<ul>
+				<li><a href="index.html" title="EL clima de hoy">Hoy</a></li>
+				<li><a href="next-days.html" title="El clima para los próximos 10 días">Próximos 10 días</a></li>
+				<li><img src="images/hoy.gif" width="80" /></li>
+				<li><img src="images/hoy.gif" width="80" /></li>
+				<li><img src="images/hoy.gif" width="80" /></li>
+			</ul>
+		</nav>
+
+		<!-- Contenedor principal -->
+		<main>
+      <!-- Intro al día actual -->
+      <h1>Clima del Corriente Día</h1>
+
+      <!-- Día Actual -->
+      <section class="section">
+        <div class="cardActual">
+          <h1 class="titulo">Pronóstico de hoy para Neuquén</h1>
+		  <div class="hoy">
+			<div class="icon">
+				<img src="images/weather.gif" width="310" />
+			</div>
+			<div class="temp">
+				<h1>29&deg; C</h1>
+				<h2>Soleado</h2>
+				<h3>NE 16 km/h</h3>
+			</div>
+		  </div>
+		</div>
+
+      </section>
+
+    </main>
+    <script type="text/javascript" src="scripts/main.js"></script>
+	</body>
+</html>
