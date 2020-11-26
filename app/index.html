@@ -32,7 +32,8 @@
 
 		<!-- Contenedor principal -->
 		<main id="main">
-      <!-- Intro al día actual -->
+
+      <!-- Cargando... -->
       <section id="loading" class="section">
         <div class="current">
           <div class="today">
@@ -47,12 +48,12 @@
         </div>
       </section>
 
-      <!-- Día Actual -->
+      <!-- Pronóstico de Hoy -->
       <section id="current" class="container" style="display:none;">
         <h1>El Clima de Hoy</h1>
         <div id="current-section" class="section">
           <div class="current">
-            <h1 class="title">Pronóstico de hoy para Neuquén</h1>
+            <h1 class="title">Pronóstico para Neuquén</h1>
             <div class="today">
               <div class="icon">
                 <img src="images/weather.gif" width="310" data-name="icon" />
@@ -67,6 +68,7 @@
         </div>
       </section>
 
+      <!-- Pronóstico 10 días -->
       <section id="forecast" class="container" style="display:none;">
         <h1>Próximos 10 días</h1>
         <div id="forecast-content" class="section">
@@ -83,7 +85,7 @@
               <span data-name="condition"></span>
             </div>
             <div class="col-lg-2 text-right">
-              <img class="icon" src="images/humidity.png" />
+              <img class="icon" src="images/precipitation.png" />
               <span data-name="precip"></span>
             </div>
             <div class="col-lg-3 text-right">
