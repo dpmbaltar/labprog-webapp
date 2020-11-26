@@ -121,47 +121,6 @@ main h1 {
 	transition-duration: .4s;
 	box-shadow: 0 2px 38px rgba(0,0,0,.8);
 }
-/* Columna */
-.section .row .col {
-	flex-grow: 1;
-	display: flex;
-	align-items: center;
-}
-/* Columnas especíificas */
-.section .row .col.date,  /* Columna de Fecha */
-.section .row .col.temp,  /* Columna de Temperatura */
-.section .row .col.humid, /* Columna de Humedad */
-.section .row .col.wind { /* Columna de Viento */
-	display: flex;
-	flex-grow: 0;
-	padding: .4em .8em;
-	width: 6em;
-	justify-content: flex-start;
-}
-
-.section .row .col.temp,
-.section .row .col.humid {
-	width: 5em;
-}
-
-.section .row .col.wind {
-	width: 9em;
-}
-/* Temperatura */
-.section .row .col.temp .deg {
-	font-weight: 800;
-	font-size: 1.5em;
-}
-/* Columna de detalle del tiempo */
-.section .row .col.detail {
-	display: flex;
-	justify-content: flex-start;
-}
-/* Iconos dentro de las columnas */
-.section .row .col .icon {
-	margin: 0;
-	margin-right: .4em;
-}
 
 .section .row.btn {
 	text-align: center;

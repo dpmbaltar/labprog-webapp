@@ -12,77 +12,96 @@
   var hash = '#!'; // Defaults to: '#'
   var router = new Navigo(root, useHash, hash);
 
-  var timestamp = 0
-  var cache = null
-  var container = document.getElementById("main")
+  var cache = []
 
-  function createSection() {
-    let section = document.createElement("section")
-    section.setAttribute("class", "section")
-    return section
-  }
-  
   function newWeatherRow() {
     return document.getElementById("forecast").getElementsByClassName("row")[0].cloneNode(true)
+  }
+
+  function getElementByName(element, name) {
+    return element.querySelector(`[data-name="${name}"]`)
+  }
+
+  function activateSection(sectionId) {
+    let main = document.getElementById("main")
+    let section = document.getElementById(sectionId)
+
+    main.querySelectorAll("section").forEach(element => {
+      element.style.display = "none"
+    })
+    section.style.display = "block"
   }
 
   router
     .on('/current', function () {
       /**
-       * Obtener pron髎tico para hoy
+       * Obtener pron贸stico para hoy
        */
       console.log("Getting current weather...")
+
+      if (cache["current"]) {
+        activateSection("current")
+        return
+      }
 
       fetch('/api/current.json')
         .then(response => response.json())
         .then(response => {
-          console.log(response)
           let weather = response
-          let container = document.getElementById("current")
-          
+          let section = document.getElementById("current")
+
           // Mostrar datos
-          container.querySelector("[data-name='temp']").innerHTML = `${weather.temp} &deg;C`
-          container.querySelector("[data-name='condition']").textContent = weather.condition.text
-          container.querySelector("[data-name='wind']").textContent = `${weather.windDir} ${weather.wind} km/h`
+          getElementByName(section, "temp").innerHTML = `${weather.temp} &deg;C`
+          getElementByName(section, "condition").textContent = weather.condition
+          getElementByName(section, "wind").textContent = `${weather.windDir} ${weather.wind} km/h`
+
+          cache["current"] = true
+          activateSection("current")
         })
     })
     .on('/forecast', function () {
       /**
-       * Obtener pron髎tico para los pr髕imos d韆s
+       * Obtener pron贸stico para los pr贸ximos d贸as
        */
+      if (cache["forecast"]) {
+        console.log("Cached forecast...")
+        activateSection("forecast")
+        return
+      }
+
       console.log("Getting forecast...")
 
       fetch('/api/forecast.json')
         .then(response => response.json())
         .then(response => {
-          console.log(response)
-          let section = document.getElementById("forecast") || createSection()
-          section.setAttribute("id", "forecast")
+          let section = document.getElementById("forecast-content")
 
+          // Verificar datos
           if (Array.isArray(response)) {
             // Recorrer arreglo de objetos obtenidos
             response.forEach(weather => {
               let row = newWeatherRow()
-              let dateOptions = { weekday: 'short', month: 'short', day: 'numeric' };
+              let dateOptions = { weekday: 'short', /*month: 'short',*/ day: 'numeric' };
               let dateTimeFormat = new Intl.DateTimeFormat('es-AR', dateOptions);
-              
+
               // Disponer los datos en las columnas
-              row.querySelector("[data-name='date']").textContent = dateTimeFormat.format(new Date(weather.date))
-              row.querySelector("[data-name='temp']").innerHTML = `${weather.temp} &deg;C`
-              row.querySelector("[data-name='icon']").src = weather.condition.icon
-              row.querySelector("[data-name='cond']").textContent = weather.condition.text
-              row.querySelector("[data-name='humidity']").textContent = `${weather.humidity}%`
-              row.querySelector("[data-name='wind']").textContent = `${weather.windDir} ${weather.wind} km/h`
-              
+              getElementByName(row, "date").textContent = dateTimeFormat.format(new Date(weather.date))
+              getElementByName(row, "temp").innerHTML = `${weather.temp} &deg;C`
+              getElementByName(row, "icon").src = weather.icon
+              getElementByName(row, "condition").textContent = weather.condition
+              getElementByName(row, "precip").textContent = `${weather.precip}%`
+              getElementByName(row, "wind").textContent = `${weather.windDir} ${weather.wind} km/h`
+
               // Agregar y mostrar fila
               row.style.display = "flex"
               section.appendChild(row)
             })
           }
-          
-          // Agregar fila al contenedor
-          container.appendChild(section)
+
+          cache["forecast"] = true
+          activateSection("forecast")
         })
     })
-    .resolve();
+    .resolve()
+    router.navigate("/current");
 })()
