@@ -22,8 +22,8 @@
 		<!-- Menu principal -->
 		<nav id="nav">
 			<ul>
-				<li><a href="index.html" title="EL clima de hoy">Hoy</a></li>
-				<li><a href="next-days.html" title="El clima para los próximos 10 días">Próximos 10 días</a></li>
+				<li><a href="#!/current" title="EL clima de hoy">Hoy</a></li>
+				<li><a href="#!/forecast" title="El clima para los próximos 10 días">Próximos 10 días</a></li>
 				<li><img src="images/hoy.gif" width="80" /></li>
 				<li><img src="images/hoy.gif" width="80" /></li>
 				<li><img src="images/hoy.gif" width="80" /></li>
@@ -31,29 +31,30 @@
 		</nav>
 
 		<!-- Contenedor principal -->
-		<main>
+		<main id="main">
       <!-- Intro al día actual -->
       <h1>Clima del Corriente Día</h1>
 
       <!-- Día Actual -->
       <section class="section">
-        <div class="cardActual">
+        <div class="current">
           <h1 class="titulo">Pronóstico de hoy para Neuquén</h1>
-		  <div class="hoy">
-			<div class="icon">
-				<img src="images/weather.gif" width="310" />
-			</div>
-			<div class="temp">
-				<h1>29&deg; C</h1>
-				<h2>Soleado</h2>
-				<h3>NE 16 km/h</h3>
-			</div>
-		  </div>
-		</div>
+          <div class="hoy">
+            <div class="icon">
+              <img src="images/weather.gif" width="310" />
+            </div>
+            <div class="temp">
+              <h1>29&deg; C</h1>
+              <h2>Soleado</h2>
+              <h3>NE 16 km/h</h3>
+            </div>
+          </div>
+        </div>
 
       </section>
 
     </main>
+    <script type="text/javascript" src="/node_modules/navigo/lib/navigo.min.js"></script>
     <script type="text/javascript" src="scripts/main.js"></script>
 	</body>
 </html>

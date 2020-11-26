@@ -13,6 +13,7 @@ const port = 9001
 
 const bd = {
   current: {
+    date: '2020-11-27',
     temp: 33,
     condition: {
       text: 'Soleado',
@@ -33,9 +34,47 @@ const bd = {
       wind: 13,
       windDir: "N",
       humidity: 19
+    },
+    {
+      date: '2020-11-28',
+      temp: 8,
+      condition: {
+        text: 'Lluvia',
+        icon: 'images/cloudy.png'
+      },
+      wind: 13,
+      windDir: "N",
+      humidity: 19
     }
   ]
 }
+
+const schema = joi.object({
+  /*date: joi.date()
+    //.format('YYYY-MM-DD')
+    //.min(today())
+    .message('"date" cannot be earlier than today')
+    //.max(tomorrow() + 10)
+    .message('"date" cannot be later than tomorrow +10')
+    .required(),*/
+
+  temp: joi.number()
+    .min(-273)
+    .message('"temp" cannot be minor to 273')
+    .max(150)
+    .message('"temp" cannot be mayor to 150')
+    .required(),
+
+}).with('date', 'temp')
+
+app.post('/create.json', (req, res) => {
+  const { params, body } = req
+  if (!schema.validate(body)) {
+    res.sendStatus(204)
+  } else {
+    res.send(body)
+  }
+})
 
 /**
  * Current
@@ -51,22 +90,12 @@ app.get('/current.json', (req, res) => {
 /**
  * Forecast
  */
-app.get('/forecast', (req, res) => {
-  /*const { params } = req
-  let data = ''
-
-  if (!weatherCache.forecast) {
-    fetch(`${weatherApiBaseUrl}/forecast.json?key=${weatherApiKey}&q=Neuquen&days=3`)
-    .then(res => res.json())
-    .then((json) => {
-      console.log('Return fetched from weather api')
-      weatherCache.forecast = json
-      res.send(weatherCache.forecast)
-    })
+app.get('/forecast.json', (req, res) => {
+  if (!bd.forecast) {
+    res.sendStatus(204)
   } else {
-    console.log('Return cached forecast.json response')
-    res.send(weatherCache.forecast)
-  }*/
+    res.send(bd.forecast)
+  }
 })
 
 app.get('/', (req, res) => {

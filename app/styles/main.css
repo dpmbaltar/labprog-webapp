@@ -1,7 +1,7 @@
 /*
  * Laboratorio de Programación 2020
  * Trabajo Práctico 02
- * 
+ *
  * - Usar solo ingles o español
  * - Pasar atributos de tamaño a CSS
  */
@@ -30,11 +30,11 @@ main h1 {
 	text-shadow: #1c2127 1px 1px;
 }
 
-.cardActual {
+.current {
 	background-color: #76babb;
 }
 
-.cardActual .titulo {
+.current .titulo {
 	padding: .6em .6em 0 .6em;
 	margin: 0;
 	display: flex;
@@ -43,47 +43,47 @@ main h1 {
 	text-shadow: #325F7E 1px 1px;
 }
 
-.cardActual .hoy {
+.current .hoy {
 	display: flex;
 	padding: .6em 1em;
 }
 
-.cardActual .icon,
-.cardActual .temp {
+.current .icon,
+.current .temp {
 	margin: 0;
 }
 
-.cardActual .icon {
+.current .icon {
 	margin-right: 2em;
 }
 
-.cardActual .temp {
+.current .temp {
 	flex-grow: 1;
 	display: flex;
 	justify-content: flex-start;
 	flex-direction: column;
 }
 
-.cardActual .temp h1 {
+.current .temp h1 {
 	font-size: 4em;
 	margin: .6em 0;
 	margin-bottom: 0;
 }
 
-.cardActual .temp h2 {
+.current .temp h2 {
 	font-size: 4em;
 	font-weight: 600;
 	margin-top: 0;
 	margin-bottom: 0;
 }
 
-.cardActual .temp h3 {
+.current .temp h3 {
 	margin-top: 0;
 }
 
-.cardActual .temp h1,
-.cardActual .temp h2,
-.cardActual .temp h3 {
+.current .temp h1,
+.current .temp h2,
+.current .temp h3 {
 	text-align: center;
 	text-shadow: #325F7E 1px 1px;
 }
@@ -99,12 +99,12 @@ main h1 {
 	box-shadow: 0 .2em 4em rgba(0,0,0,.8);
 	border-radius: 4px;
 }
-  
+
 /**
  * Estilo de listado de próximos 10 días
  */
 
-.section .card {
+.section .row {
 	background-color: #313A44;
 	padding: 1em;
 	margin: 1em;
@@ -115,23 +115,23 @@ main h1 {
 	align-items: center;
 }
 
-.section .card:hover {
+.section .row:hover {
 	background-color: #325F7E;
 	transition: box-shadow background-image;
 	transition-duration: .4s;
 	box-shadow: 0 2px 38px rgba(0,0,0,.8);
 }
 /* Columna */
-.section .card .col {
+.section .row .col {
 	flex-grow: 1;
 	display: flex;
 	align-items: center;
 }
 /* Columnas especíificas */
-.section .card .col.date,  /* Columna de Fecha */
-.section .card .col.temp,  /* Columna de Temperatura */
-.section .card .col.humid, /* Columna de Humedad */
-.section .card .col.wind { /* Columna de Viento */
+.section .row .col.date,  /* Columna de Fecha */
+.section .row .col.temp,  /* Columna de Temperatura */
+.section .row .col.humid, /* Columna de Humedad */
+.section .row .col.wind { /* Columna de Viento */
 	display: flex;
 	flex-grow: 0;
 	padding: .4em .8em;
@@ -139,31 +139,31 @@ main h1 {
 	justify-content: flex-start;
 }
 
-.section .card .col.temp,
-.section .card .col.humid {
+.section .row .col.temp,
+.section .row .col.humid {
 	width: 5em;
 }
 
-.section .card .col.wind {
+.section .row .col.wind {
 	width: 9em;
 }
 /* Temperatura */
-.section .card .col.temp .deg {
+.section .row .col.temp .deg {
 	font-weight: 800;
 	font-size: 1.5em;
 }
 /* Columna de detalle del tiempo */
-.section .card .col.detail {
+.section .row .col.detail {
 	display: flex;
 	justify-content: flex-start;
 }
 /* Iconos dentro de las columnas */
-.section .card .col .icon {
+.section .row .col .icon {
 	margin: 0;
 	margin-right: .4em;
 }
 
-.section .card.btn {
+.section .row.btn {
 	text-align: center;
 	color: #d9d9d9;
 	font-size: 1.2em;
@@ -172,7 +172,7 @@ main h1 {
 	text-decoration: none;
 }
 
-.section .card.btn:hover {
+.section .row.btn:hover {
 	background-color: #113F5A;
 	color: #fafafa;
 }
@@ -203,7 +203,7 @@ main h1 {
 	display: block;
 	padding: 1em;
 }
-  
+
 #nav ul li a:hover {
 	background-color: #113F5A;
 	color: #fafafa;
