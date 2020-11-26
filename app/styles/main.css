@@ -34,7 +34,7 @@ main h1 {
 	background-color: #76babb;
 }
 
-.current .titulo {
+.current .title {
 	padding: .6em .6em 0 .6em;
 	margin: 0;
 	display: flex;
@@ -43,7 +43,7 @@ main h1 {
 	text-shadow: #325F7E 1px 1px;
 }
 
-.current .hoy {
+.current .today {
 	display: flex;
 	padding: .6em 1em;
 }
@@ -111,7 +111,7 @@ main h1 {
 	border-radius: 4px;
 	transition: box-shadow background-image;
 	transition-duration: .4s;
-	display: flex;
+	/*display: flex;*/
 	align-items: center;
 }
 

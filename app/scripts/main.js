@@ -21,26 +21,15 @@
     section.setAttribute("class", "section")
     return section
   }
-
-  function createWeatherRow() {
-    var row = document.createElement("div")
-    var col = document.createElement("div")
-    var cols = ["date", "temp", "detail", "humid", "wind"]
-
-    row.setAttribute("class", "row")
-    cols.forEach(element => {
-      col.setAttribute("class", "col " + element)
-      row.appendChild(col)
-      col = col.cloneNode()
-    })
-
-    return row
+  
+  function newWeatherRow() {
+    return document.getElementById("forecast").getElementsByClassName("row")[0].cloneNode(true)
   }
 
   router
     .on('/current', function () {
       /**
-       * Get current day weather
+       * Obtener pronóstico para hoy
        */
       console.log("Getting current weather...")
 
@@ -48,12 +37,18 @@
         .then(response => response.json())
         .then(response => {
           console.log(response)
-          let tempElem = document.getElementsByClassName('temp')[0].innerHTML = response.temp
+          let weather = response
+          let container = document.getElementById("current")
+          
+          // Mostrar datos
+          container.querySelector("[data-name='temp']").innerHTML = `${weather.temp} &deg;C`
+          container.querySelector("[data-name='condition']").textContent = weather.condition.text
+          container.querySelector("[data-name='wind']").textContent = `${weather.windDir} ${weather.wind} km/h`
         })
     })
     .on('/forecast', function () {
       /**
-       * Get forecast weather
+       * Obtener pronóstico para los próximos días
        */
       console.log("Getting forecast...")
 
@@ -65,14 +60,27 @@
           section.setAttribute("id", "forecast")
 
           if (Array.isArray(response)) {
-            response.forEach(element => {
-              let row = createWeatherRow()
-              console.log(row)
-              row.firstChild.textContent = element.temp
+            // Recorrer arreglo de objetos obtenidos
+            response.forEach(weather => {
+              let row = newWeatherRow()
+              let dateOptions = { weekday: 'short', month: 'short', day: 'numeric' };
+              let dateTimeFormat = new Intl.DateTimeFormat('es-AR', dateOptions);
+              
+              // Disponer los datos en las columnas
+              row.querySelector("[data-name='date']").textContent = dateTimeFormat.format(new Date(weather.date))
+              row.querySelector("[data-name='temp']").innerHTML = `${weather.temp} &deg;C`
+              row.querySelector("[data-name='icon']").src = weather.condition.icon
+              row.querySelector("[data-name='cond']").textContent = weather.condition.text
+              row.querySelector("[data-name='humidity']").textContent = `${weather.humidity}%`
+              row.querySelector("[data-name='wind']").textContent = `${weather.windDir} ${weather.wind} km/h`
+              
+              // Agregar y mostrar fila
+              row.style.display = "flex"
               section.appendChild(row)
             })
           }
-
+          
+          // Agregar fila al contenedor
           container.appendChild(section)
         })
     })
