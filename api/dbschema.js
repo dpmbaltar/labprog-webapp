@@ -1,13 +1,13 @@
 const joi = require("joi")
 
 module.exports = joi.object({
-  /*date: joi.date()
+  date: joi.date()
     //.format('YYYY-MM-DD')
     //.min(today())
-    .message('"date" cannot be earlier than today')
+    //.message('"date" cannot be earlier than today')
     //.max(tomorrow() + 10)
-    .message('"date" cannot be later than tomorrow +10')
-    .required(),*/
+    //.message('"date" cannot be later than tomorrow +10')
+    .required(),
 
   temp: joi.number()
     .min(-273)

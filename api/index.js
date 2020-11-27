@@ -1,7 +1,7 @@
 const express = require('express')
-const bodyParser = require('body-parser')
-const fetch = require('node-fetch')
 const app = express()
+const bodyParser = require('body-parser')
+const fs = require('fs')
 const joi = require('joi')
 const { build } = require('joi')
 
@@ -10,47 +10,39 @@ app.use(bodyParser.json());
 
 const port = 9001
 
-const db = require('./db.js')
-const dbschema = require('./dbschema.js')
+const dbFile = 'api/db.json'
+const dbSchema = require('./dbschema.js')
 
 /**
- * Crear pronostico
+ * Obtener pronóstico actual
  */
-app.post('/create.json', (req, res) => {
+app.get('/api/weather/forecast', (req, res) => {
+  const { query:queryParams } = req
+  const { from = 0, days = 1 } = queryParams
+
+  let rawdata = fs.readFileSync(dbFile)
+  let db = JSON.parse(rawdata)
+  let weather = db.forecast.slice(from, days)
+
+  res.status(200).json(weather)
+})
+
+/**
+ * Crear pronóstico
+ */
+app.post('/api/weather/create', (req, res) => {
   const { params, body } = req
-  if (!schema.validate(body)) {
-    res.sendStatus(204)
-  } else {
-    res.send(body)
-  }
+  // Hacer
 })
 
 /**
- * Pronóstico actual
+ * Actualizar pronóstico
  */
-app.get('/current.json', (req, res) => {
-  if (!db.current) {
-    res.sendStatus(204)
-  } else {
-    res.send(db.current)
-  }
-})
-
-/**
- * Pronóstico siguiente
- */
-app.get('/forecast.json', (req, res) => {
-  if (!db.forecast) {
-    res.sendStatus(204)
-  } else {
-    res.send(db.forecast)
-  }
-})
-
-app.get('/', (req, res) => {
-  return res.sendStatus(400)
+app.put('/api/weather/update/:year/:month/:day', (req, res) => {
+  const { params, body } = req
+  // Hacer
 })
 
 app.listen(port, () => {
-    console.log(`Listening at http://localhost:${port}`)
+  console.log(`Listening at http://localhost:${port}`)
 })
