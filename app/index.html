@@ -1,103 +1,105 @@
 <!doctype html>
 <html lang="es">
-	<head>
-    <meta charset="utf-8">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Clima - Hoy</title>
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <!-- Place favicon.ico in the root directory -->
-    <!-- build:css styles/vendor.css -->
-    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
-    <!-- endbuild -->
-		<!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
-	</head>
-	<body>
-    <!--[if IE]>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Clima - Hoy</title>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- build:css styles/vendor.css -->
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+  <!-- endbuild -->
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+</head>
+
+<body>
+  <!--[if IE]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-		<!-- Menu principal -->
-		<nav id="nav">
-			<ul>
-				<li><a href="#!/current" title="EL clima de hoy">Hoy</a></li>
-				<li><a href="#!/forecast" title="El clima para los próximos 10 días">Próximos 10 días</a></li>
-				<li><img src="images/hoy.gif" width="80" /></li>
-				<li><img src="images/hoy.gif" width="80" /></li>
-				<li><img src="images/hoy.gif" width="80" /></li>
-			</ul>
-		</nav>
+  <!-- Menu principal -->
+  <nav id="nav">
+    <ul>
+      <li><a href="#!/weather/current" title="EL clima de hoy">Hoy</a></li>
+      <li><a href="#!/weather/forecast" title="El clima para los próximos 10 días">Próximos 10 días</a></li>
+      <li><img src="images/hoy.gif" width="80" /></li>
+      <li><img src="images/hoy.gif" width="80" /></li>
+      <li><img src="images/hoy.gif" width="80" /></li>
+    </ul>
+  </nav>
 
-		<!-- Contenedor principal -->
-		<main id="main">
+  <!-- Contenedor principal -->
+  <main id="main">
 
-      <!-- Cargando... -->
-      <section id="loading" class="section">
+    <!-- Cargando... -->
+    <section id="loading" class="section">
+      <div class="current">
+        <div class="today">
+          <div class="icon">
+            <img src="images/weather.gif" width="310" data-name="icon" />
+          </div>
+          <div class="temp">
+            <h1 data-name="temp">&nbsp;</h1>
+            <h2 data-name="condition">Cargando...</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pronóstico de Hoy -->
+    <section id="current" class="container" style="display:none;">
+      <h1>El Clima de Hoy</h1>
+      <div id="current-section" class="section">
         <div class="current">
+          <h1 class="title">Pronóstico para Neuquén</h1>
           <div class="today">
             <div class="icon">
               <img src="images/weather.gif" width="310" data-name="icon" />
             </div>
             <div class="temp">
-              <h1 data-name="temp">&nbsp;</h1>
-              <h2 data-name="condition">Cargando...</h2>
+              <h1 data-name="temp"></h1>
+              <h2 data-name="condition"></h2>
+              <h3 data-name="wind"></h3>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Pronóstico de Hoy -->
-      <section id="current" class="container" style="display:none;">
-        <h1>El Clima de Hoy</h1>
-        <div id="current-section" class="section">
-          <div class="current">
-            <h1 class="title">Pronóstico para Neuquén</h1>
-            <div class="today">
-              <div class="icon">
-                <img src="images/weather.gif" width="310" data-name="icon" />
-              </div>
-              <div class="temp">
-                <h1 data-name="temp"></h1>
-                <h2 data-name="condition"></h2>
-                <h3 data-name="wind"></h3>
-              </div>
-            </div>
+    <!-- Pronóstico 10 días -->
+    <section id="forecast" class="container" style="display:none;">
+      <h1>Próximos 10 días</h1>
+      <div id="forecast-content" class="section">
+        <!-- Weather Row Template -->
+        <div class="row" style="display:none;">
+          <div class="col-lg">
+            <span data-name="date"></span>
+          </div>
+          <div class="col-lg">
+            <h4 class="font-weight-bold" data-name="temp"></h4>
+          </div>
+          <div class="col-lg-4 text-left">
+            <img class="icon" src="" alt="" data-name="icon" />
+            <span data-name="condition"></span>
+          </div>
+          <div class="col-lg-2 text-right">
+            <img class="icon" src="images/precipitation.png" />
+            <span data-name="precip"></span>
+          </div>
+          <div class="col-lg-3 text-right">
+            <img class="icon" src="images/wind.png" />
+            <span data-name="wind"></span>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Pronóstico 10 días -->
-      <section id="forecast" class="container" style="display:none;">
-        <h1>Próximos 10 días</h1>
-        <div id="forecast-content" class="section">
-          <!-- Weather Row Template -->
-          <div class="row" style="display:none;">
-            <div class="col-lg">
-              <span data-name="date"></span>
-            </div>
-            <div class="col-lg">
-              <h4 class="font-weight-bold" data-name="temp"></h4>
-            </div>
-            <div class="col-lg-4 text-left">
-              <img class="icon" src="" alt="Soleado" data-name="icon" />
-              <span data-name="condition"></span>
-            </div>
-            <div class="col-lg-2 text-right">
-              <img class="icon" src="images/precipitation.png" />
-              <span data-name="precip"></span>
-            </div>
-            <div class="col-lg-3 text-right">
-              <img class="icon" src="images/wind.png" />
-              <span data-name="wind"></span>
-            </div>
-          </div>
-        </div>
-      </section>
+  </main>
+  <script type="text/javascript" src="/node_modules/navigo/lib/navigo.min.js"></script>
+  <script type="text/javascript" src="scripts/main.js"></script>
+</body>
 
-    </main>
-    <script type="text/javascript" src="/node_modules/navigo/lib/navigo.min.js"></script>
-    <script type="text/javascript" src="scripts/main.js"></script>
-	</body>
 </html>

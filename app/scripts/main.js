@@ -1,107 +1,120 @@
-// Uncomment to enable Bootstrap tooltips
-// https://getbootstrap.com/docs/4.0/components/tooltips/#example-enable-tooltips-everywhere
-// $(function () { $('[data-toggle="tooltip"]').tooltip(); });
 
-// Uncomment to enable Bootstrap popovers
-// https://getbootstrap.com/docs/4.0/components/popovers/#example-enable-popovers-everywhere
-// $(function () { $('[data-toggle="popover"]').popover(); });
+const router = new Navigo("http://localhost:9000/", true, '#!');
 
-(function() {
-  var root = null;
-  var useHash = true; // Defaults to: false
-  var hash = '#!'; // Defaults to: '#'
-  var router = new Navigo(root, useHash, hash);
+function newWeatherRow() {
+  return document.getElementById("forecast").getElementsByClassName("row")[0].cloneNode(true)
+}
 
-  var cache = []
+function getElementByName(element, name) {
+  return element.querySelector(`[data-name="${name}"]`)
+}
 
-  function newWeatherRow() {
-    return document.getElementById("forecast").getElementsByClassName("row")[0].cloneNode(true)
+/**
+ * Activa una sección <section> con id="sectionId", dentro del <main id="main">
+ *
+ * @param {String} sectionId el id de la sección
+ */
+function activateSection(sectionId) {
+  let main = document.getElementById("main")
+  let section = document.getElementById(sectionId)
+
+  main.querySelectorAll("section").forEach(element => {
+    element.style.display = "none"
+  })
+  section.style.display = "block"
+}
+
+/**
+ * Obtener pronóstico para hoy
+ */
+function weatherCurrentHandler() {
+  console.log("Getting current weather...")
+  weatherCurrentHandler.cacheTime = weatherCurrentHandler.cacheTime || 0
+
+  let time = new Date()
+  let elapsedTime = (time - weatherCurrentHandler.cacheTime) / 1000
+
+  if (elapsedTime < 30) {
+    console.log(`Cached current weather... Will update in ${30-elapsedTime} seconds`)
+    return activateSection("current")
   }
 
-  function getElementByName(element, name) {
-    return element.querySelector(`[data-name="${name}"]`)
-  }
+  fetch('/api/weather/forecast')
+    .then(response => response.json())
+    .then(response => {
+      let weather = response[0]
+      let section = document.getElementById("current")
 
-  function activateSection(sectionId) {
-    let main = document.getElementById("main")
-    let section = document.getElementById(sectionId)
+      // Mostrar datos
+      getElementByName(section, "temp").innerHTML = `${weather.temp} &deg;C`
+      getElementByName(section, "condition").textContent = weather.condition
+      getElementByName(section, "wind").textContent = `${weather.windDir} ${weather.wind} km/h`
 
-    main.querySelectorAll("section").forEach(element => {
-      element.style.display = "none"
+      weatherCurrentHandler.cacheTime = new Date()
+      activateSection("current")
     })
-    section.style.display = "block"
+}
+
+/**
+ * Obtener pronóstico para los próximos dóas
+ */
+function weatherForecastHandler() {
+  console.log("Getting forecast...")
+  weatherForecastHandler.cacheTime = weatherForecastHandler.cacheTime || 0
+
+  let time = new Date()
+  let elapsedTime = (time - weatherForecastHandler.cacheTime) / 1000
+
+  if (elapsedTime < 30) {
+    console.log(`Cached forecast... Will update in ${30-elapsedTime} seconds`)
+    return activateSection("forecast")
   }
 
-  router
-    .on('/current', function () {
-      /**
-       * Obtener pronóstico para hoy
-       */
-      console.log("Getting current weather...")
+  let from = 0
+  let days = 10
 
-      if (cache["current"]) {
-        activateSection("current")
-        return
+  fetch(`/api/weather/forecast?from=${from}&days=${days}`)
+    .then(response => response.json())
+    .then(response => {
+      let section = document.getElementById("forecast-content")
+
+      // Verificar datos
+      if (Array.isArray(response)) {
+        // Recorrer arreglo de objetos obtenidos
+        response.forEach(weather => {
+          let row = newWeatherRow()
+          let dateOptions = { weekday: 'short', /*month: 'short',*/ day: 'numeric' };
+          let dateTimeFormat = new Intl.DateTimeFormat('es-AR', dateOptions);
+
+          // Disponer los datos en las columnas
+          getElementByName(row, "date").textContent = dateTimeFormat.format(new Date(weather.date))
+          getElementByName(row, "temp").innerHTML = `${weather.temp} &deg;C`
+          getElementByName(row, "icon").src = weather.icon
+          getElementByName(row, "icon").alt = weather.condition
+          getElementByName(row, "condition").textContent = weather.condition
+          getElementByName(row, "precip").textContent = `${weather.precip}%`
+          getElementByName(row, "wind").textContent = `${weather.windDir} ${weather.wind} km/h`
+
+          // Agregar y mostrar fila
+          row.style.display = "flex"
+          section.appendChild(row)
+        })
       }
 
-      fetch('/api/current.json')
-        .then(response => response.json())
-        .then(response => {
-          let weather = response
-          let section = document.getElementById("current")
-
-          // Mostrar datos
-          getElementByName(section, "temp").innerHTML = `${weather.temp} &deg;C`
-          getElementByName(section, "condition").textContent = weather.condition
-          getElementByName(section, "wind").textContent = `${weather.windDir} ${weather.wind} km/h`
-
-          cache["current"] = true
-          activateSection("current")
-        })
+      weatherForecastHandler.cacheTime = new Date()
+      activateSection("forecast")
     })
-    .on('/forecast', function () {
-      /**
-       * Obtener pronóstico para los próximos dóas
-       */
-      if (cache["forecast"]) {
-        console.log("Cached forecast...")
-        activateSection("forecast")
-        return
-      }
+}
 
-      console.log("Getting forecast...")
+function rootHandler() {
+  router.navigate("/weather/current");
+}
 
-      fetch('/api/forecast.json')
-        .then(response => response.json())
-        .then(response => {
-          let section = document.getElementById("forecast-content")
+router
+  .on({
+    '*': rootHandler,
+    '/weather/current': weatherCurrentHandler,
+    '/weather/forecast': weatherForecastHandler
+  })
+  .resolve()
 
-          // Verificar datos
-          if (Array.isArray(response)) {
-            // Recorrer arreglo de objetos obtenidos
-            response.forEach(weather => {
-              let row = newWeatherRow()
-              let dateOptions = { weekday: 'short', /*month: 'short',*/ day: 'numeric' };
-              let dateTimeFormat = new Intl.DateTimeFormat('es-AR', dateOptions);
-
-              // Disponer los datos en las columnas
-              getElementByName(row, "date").textContent = dateTimeFormat.format(new Date(weather.date))
-              getElementByName(row, "temp").innerHTML = `${weather.temp} &deg;C`
-              getElementByName(row, "icon").src = weather.icon
-              getElementByName(row, "condition").textContent = weather.condition
-              getElementByName(row, "precip").textContent = `${weather.precip}%`
-              getElementByName(row, "wind").textContent = `${weather.windDir} ${weather.wind} km/h`
-
-              // Agregar y mostrar fila
-              row.style.display = "flex"
-              section.appendChild(row)
-            })
-          }
-
-          cache["forecast"] = true
-          activateSection("forecast")
-        })
-    })
-    .resolve()
-    router.navigate("/current");
-})()
