@@ -120,9 +120,9 @@ const build = series(
 );
 
 function startAppServer() {
-  let proxyOptions = url.parse('http://localhost:9001');
+  let proxyOptions = url.parse('http://localhost:9001/api/');
   proxyOptions.route = '/api';
-  
+
   server.init({
     notify: false,
     port,
