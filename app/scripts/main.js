@@ -1,6 +1,4 @@
 
-const router = new Navigo("http://localhost:9000/", true, '#!');
-
 function newWeatherRow() {
   return document.getElementById("forecast").getElementsByClassName("row")[0].cloneNode(true)
 }
@@ -39,19 +37,21 @@ function weatherCurrentHandler() {
     return activateSection("current")
   }
 
-  fetch('/api/weather/forecast')
+  fetch('/api/weather/forecast?from=0&days=1')
     .then(response => response.json())
     .then(response => {
       let weather = response[0]
       let section = document.getElementById("current")
 
       // Mostrar datos
-      getElementByName(section, "temp").innerHTML = `${weather.temp} &deg;C`
+      getElementByName(section, "temp").textContent = `${weather.temp} °C`
       getElementByName(section, "condition").textContent = weather.condition
       getElementByName(section, "wind").textContent = `${weather.windDir} ${weather.wind} km/h`
 
       weatherCurrentHandler.cacheTime = new Date()
       activateSection("current")
+    }).catch(error => {
+      console.log(error)
     })
 }
 
@@ -88,12 +88,13 @@ function weatherForecastHandler() {
 
           // Disponer los datos en las columnas
           getElementByName(row, "date").textContent = dateTimeFormat.format(new Date(weather.date))
-          getElementByName(row, "temp").innerHTML = `${weather.temp} &deg;C`
+          getElementByName(row, "temp").textContent = weather.temp
           getElementByName(row, "icon").src = weather.icon
           getElementByName(row, "icon").alt = weather.condition
           getElementByName(row, "condition").textContent = weather.condition
-          getElementByName(row, "precip").textContent = `${weather.precip}%`
-          getElementByName(row, "wind").textContent = `${weather.windDir} ${weather.wind} km/h`
+          getElementByName(row, "precip").textContent = weather.precip
+          getElementByName(row, "wind").textContent = weather.wind
+          getElementByName(row, "windDir").textContent = weather.windDir
 
           // Agregar y mostrar fila
           row.style.display = "flex"
@@ -109,6 +110,8 @@ function weatherForecastHandler() {
 function rootHandler() {
   router.navigate("/weather/current");
 }
+
+const router = new Navigo("http://localhost:9000/", true, '#!');
 
 router
   .on({

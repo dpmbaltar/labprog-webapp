@@ -11,18 +11,24 @@ app.use(bodyParser.json());
 const port = 9001
 
 const dbFile = 'api/db.json'
-const dbSchema = require('./dbschema.js')
+const valid = require('./dbschema.js')
 
 /**
  * Obtener pronóstico actual
  */
 app.get('/api/weather/forecast', (req, res) => {
   const { query:queryParams } = req
-  const { from = 0, days = 1 } = queryParams
+  const { error, value } = valid.weatherParamsSchema.validate(queryParams)
+  
+  if (error)
+    return res.status(400).json(error)
 
   let rawdata = fs.readFileSync(dbFile)
   let db = JSON.parse(rawdata)
-  let weather = db.forecast.slice(from, days)
+  let weather = db.forecast.slice(value.from, value.days)
+
+  if (weather.length == 0)
+    res.status(204)
 
   res.status(200).json(weather)
 })

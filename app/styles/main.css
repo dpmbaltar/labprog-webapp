@@ -122,6 +122,12 @@ main h1 {
 	box-shadow: 0 2px 38px rgba(0,0,0,.8);
 }
 
+.section .row h4,
+.section .row h5,
+.section .row h6 {
+  margin-bottom: 0;
+}
+
 .section .row.btn {
 	text-align: center;
 	color: #d9d9d9;
