@@ -25,12 +25,15 @@ app.get('/api/weather/forecast', (req, res) => {
 
   let rawdata = fs.readFileSync(dbFile)
   let db = JSON.parse(rawdata)
-  let weather = db.forecast.slice(value.from, value.days)
 
-  if (weather.length == 0)
-    res.status(204)
+  let { from = 0, days = 1 } = value
+  let forecast = db.forecast.slice(from, days)
+  let total = db.forecast.length
 
-  res.status(200).json(weather)
+  res.status(200).json({
+    total: total,
+    forecast: forecast
+  })
 })
 
 /**

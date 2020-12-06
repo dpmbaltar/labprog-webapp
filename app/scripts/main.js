@@ -1,12 +1,4 @@
 
-function newWeatherRow() {
-  return document.getElementById("forecast").getElementsByClassName("row")[0].cloneNode(true)
-}
-
-function getElementByName(element, name) {
-  return element.querySelector(`[data-name="${name}"]`)
-}
-
 /**
  * Activa una sección <section> con id="sectionId", dentro del <main id="main">
  *
@@ -20,6 +12,62 @@ function activateSection(sectionId) {
     element.style.display = "none"
   })
   section.style.display = "block"
+}
+
+function activatePage(pageNumber) {
+  let forecastContent = document.getElementById("forecast-content")
+  let forecastPage = document.getElementById("forecast-page-" + pageNumber)
+
+  forecastContent.querySelectorAll("div").forEach(element => {
+    element.setAttribute("class", "d-none")
+  })
+
+  if (!forecastPage) {
+
+  }
+  
+  forecastPage.setAttribute("class", "")
+}
+
+function getElementByName(element, name) {
+  return element.querySelector(`[data-name="${name}"]`)
+}
+
+function newWeatherRow() {
+  return document.getElementById("forecast").getElementsByClassName("row")[0].cloneNode(true)
+}
+
+function newWeatherPage(pageNumber, buttonText) {
+  let a = document.createElement("a")
+  let li = document.createElement("li")
+
+  a.setAttribute("class", "page-link")
+  a.setAttribute("href", "#!/weather/forecast/" + pageNumber)
+  a.textContent = buttonText
+
+  li.setAttribute("class", "page-item")
+  li.appendChild(a)
+  
+  return li
+}
+
+/**
+ * Muestra las páginas del pronóstico.
+ * @param {Number} totalPages la cantidad total de páginas
+ */
+function showWeatherForecastPages(totalPages) {
+  let pageContainer = document.getElementById("forecast-pagination")
+
+  if (totalPages <= 1)
+    return pageContainer.setAttribute("class", "d-none")
+  
+  let pageList = document.getElementById("forecast-page-list")
+  pageList.innerHTML = ""
+
+  for (let i = 1; i <= totalPages; i++)
+    pageList.appendChild(newWeatherPage(i, i))
+
+  pageContainer.setAttribute("class", "")
 }
 
 /**
@@ -40,7 +88,7 @@ function weatherCurrentHandler() {
   fetch('/api/weather/forecast?from=0&days=1')
     .then(response => response.json())
     .then(response => {
-      let weather = response[0]
+      let weather = response.forecast[0]
       let section = document.getElementById("current")
 
       // Mostrar datos
@@ -58,31 +106,21 @@ function weatherCurrentHandler() {
 /**
  * Obtener pronóstico para los próximos dóas
  */
-function weatherForecastHandler() {
-  console.log("Getting forecast...")
-  weatherForecastHandler.cacheTime = weatherForecastHandler.cacheTime || 0
-
-  let time = new Date()
-  let elapsedTime = (time - weatherForecastHandler.cacheTime) / 1000
-
-  if (elapsedTime < 30) {
-    console.log(`Cached forecast... Will update in ${30-elapsedTime} seconds`)
-    return activateSection("forecast")
-  }
-
-  let from = 0
-  let days = 10
+function weatherForecastHandler(params) {
+  const days = 3 // Días por página
+  let { totalDays = -1 } = weatherForecastHandler
+  let { page = 1 } = params
+  let from = days * (page - 1)
 
   fetch(`/api/weather/forecast?from=${from}&days=${days}`)
     .then(response => response.json())
     .then(response => {
-      let section = document.getElementById("forecast-content")
+      let container = document.getElementById("forecast-content")
 
-      // Verificar datos
-      if (Array.isArray(response)) {
+      if (response.forecast) {
         // Recorrer arreglo de objetos obtenidos
-        response.forEach(weather => {
-          let row = newWeatherRow()
+        response.forecast.forEach(weather => {
+          let row = newWeatherRow() // Crea la fila HTML
           let dateOptions = { weekday: 'short', /*month: 'short',*/ day: 'numeric' };
           let dateTimeFormat = new Intl.DateTimeFormat('es-AR', dateOptions);
 
@@ -97,12 +135,17 @@ function weatherForecastHandler() {
           getElementByName(row, "windDir").textContent = weather.windDir
 
           // Agregar y mostrar fila
-          row.style.display = "flex"
-          section.appendChild(row)
+          row.setAttribute("class", "row")
+          container.appendChild(row)
         })
+
+        // Mostrar páginas si es necesario
+        if (totalDays < 0 || totalDays != response.total) {
+          totalDays = response.total
+          showWeatherForecastPages(parseInt(totalDays / days))
+        }
       }
 
-      weatherForecastHandler.cacheTime = new Date()
       activateSection("forecast")
     })
 }
@@ -117,7 +160,7 @@ router
   .on({
     '*': rootHandler,
     '/weather/current': weatherCurrentHandler,
-    '/weather/forecast': weatherForecastHandler
+    '/weather/forecast/:page': weatherForecastHandler
   })
   .resolve()
 

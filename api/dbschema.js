@@ -3,6 +3,7 @@
 module.exports = {
   weatherSchema: joi.object({
     date: joi.date()
+      .iso()
       //.format('YYYY-MM-DD')
       //.min(today())
       //.message('"date" cannot be earlier than today')
