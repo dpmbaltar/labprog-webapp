@@ -17,17 +17,19 @@ const valid = require('./dbschema.js')
  * Obtener pronóstico actual
  */
 app.get('/api/weather/forecast', (req, res) => {
-  const { query:queryParams } = req
+  const { query:queryParams } = req // queryParams = req.query
   const { error, value } = valid.weatherParamsSchema.validate(queryParams)
-  
+
   if (error)
     return res.status(400).json(error)
 
+  // Leer datos del archivo
   let rawdata = fs.readFileSync(dbFile)
   let db = JSON.parse(rawdata)
 
+  // Estblecer params por defecto
   let { from = 0, days = 1 } = value
-  let forecast = db.forecast.slice(from, days)
+  let forecast = db.forecast.slice(from, days) // Devolver desde el elemento 0, cantidad de días
   let total = db.forecast.length
 
   res.status(200).json({
@@ -41,7 +43,16 @@ app.get('/api/weather/forecast', (req, res) => {
  */
 app.post('/api/weather/create', (req, res) => {
   const { params, body } = req
-  // Hacer
+  const { error, value } = valid.weatherSchema.validate(body)
+
+  if (error)
+    return res.status(400).json(error)
+
+  // Leer archivo dbschema.js
+  // Modificar arreglo de datos
+  // Guardar archivo modificado
+
+  res.status(200).json(body)
 })
 
 /**
@@ -49,7 +60,17 @@ app.post('/api/weather/create', (req, res) => {
  */
 app.put('/api/weather/update/:year/:month/:day', (req, res) => {
   const { params, body } = req
-  // Hacer
+  const { error, value } = valid.weatherSchema.validate(body)
+
+  if (error)
+    return res.status(400).json(error)
+
+  // Leer archivo dbschema.js
+  // Vertificar si la entrada existe
+  // Modificar arreglo de datos
+  // Guardar archivo modificado
+
+  res.status(200).json(body)
 })
 
 app.listen(port, () => {

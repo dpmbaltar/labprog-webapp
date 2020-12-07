@@ -13,7 +13,7 @@ module.exports = {
 
     temp: joi.number()
       .min(-273)
-      .message('"temp" cannot be minor to 273')
+      .message('"temp" no puede ser menor que 273')
       .max(150)
       .message('"temp" cannot be mayor to 150')
       .required(),
@@ -24,7 +24,7 @@ module.exports = {
    * Esquema de validación de parámetros para la obtención del pronóstico.
    */
   weatherParamsSchema: joi.object({
-    
+
     /**
      * El primer día del pronóstico.
      */
