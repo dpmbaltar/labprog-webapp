@@ -80,6 +80,15 @@
       "precip": 20,
       "wind": 19,
       "windDir": "ESE"
+    },
+    {
+      "date": "2020-12-10T00:00:00.000Z",
+      "temp": 32,
+      "condition": "Soleado",
+      "icon": "images/sunny.png",
+      "precip": 0,
+      "wind": 26,
+      "windDir": "N"
     }
   ]
 }

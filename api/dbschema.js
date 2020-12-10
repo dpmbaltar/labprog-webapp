@@ -1,22 +1,46 @@
 ﻿const joi = require("joi")
 
 module.exports = {
+
+  /**
+   * Esquema de validación de parámetros para agregar/actualizar pronóstico.
+   */
   weatherSchema: joi.object({
+
     date: joi.date()
       .iso()
-      //.format('YYYY-MM-DD')
-      //.min(today())
-      //.message('"date" cannot be earlier than today')
-      //.max(tomorrow() + 10)
-      //.message('"date" cannot be later than tomorrow +10')
       .required(),
 
     temp: joi.number()
       .min(-273)
       .message('"temp" no puede ser menor que 273')
       .max(150)
-      .message('"temp" cannot be mayor to 150')
+      .message('"temp" no puede ser mayor que 150')
       .required(),
+
+    condition: joi.string()
+      .required(),
+
+    icon: joi.string()
+      .required(),
+    
+    precip: joi.number()
+      .min(0)
+      .message('"precip" no puede ser menor que 0')
+      .max(100)
+      .message('"precip" no puede ser mayor que 100')
+      .required(),
+    
+    wind: joi.number()
+      .min(0)
+      .message('"wind" no puede ser menor que 0')
+      .max(1000)
+      .message('"wind" no puede ser mayor que 1000')
+      .required(),
+
+    windDir: joi.string()
+      .uppercase()
+      .required()
 
   }).with('date', 'temp'),
 
