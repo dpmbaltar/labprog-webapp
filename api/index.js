@@ -48,11 +48,15 @@ app.post('/api/weather/create', (req, res) => {
   if (error)
     return res.status(400).json({ error: error })
 
-  // Leer archivo dbschema.js
   try {
+    // Leer archivo dbschema.js
     let rawdata = fs.readFileSync(dbFile)
     let db = JSON.parse(rawdata)
-    let found = db.forecast.find(element => element.date == newWeather.date)
+    let found = db.forecast.find(element => {
+      const d1 = Date.parse(element.date)
+      const d2 = Date.parse(newValidWeather.date)
+      return d1.valueOf() === d2.valueOf()
+    })
 
     // Verificar si el elemento existe
     if (found)
@@ -79,22 +83,39 @@ app.post('/api/weather/create', (req, res) => {
  * Actualizar pronóstico
  */
 app.put('/api/weather/update/:year/:month/:day', (req, res) => {
-  const { params, body } = req
+  const { params, body:weatherData } = req
   const { year, month, day } = params
-  const { error, value } = valid.weatherSchema.validate(body)
+  const { error, value:validWeatherData } = valid.weatherSchema.validate(weatherData)
 
   if (error)
     return res.status(400).json(error)
 
   // Leer archivo dbschema.js
-  let rawdata = fs.readFileSync(dbFile)
-  let db = JSON.parse(rawdata)
+  try {
+    // Leer archivo dbschema.js
+    let rawdata = fs.readFileSync(dbFile)
+    let db = JSON.parse(rawdata)
+    let found = db.forecast.find(element => {
+      const d1 = Date.parse(element.date)
+      const d2 = Date.parse(validWeatherData.date)
+      return d1.valueOf() === d2.valueOf()
+    })
 
-  // Vertificar si la entrada existe
-  // Modificar arreglo de datos
-  // Guardar archivo modificado
+    // Verificar si el elemento existe
+    if (!found)
+      return res.status(400).json({error: 'El elemento no existe'})
 
-  res.status(200).json(body)
+    // Modificar arreglo de datos
+
+    // Guardar archivo modificado
+    fs.writeFileSync(dbFile, data, 'utf8');
+
+  } catch (e) {
+    console.log(`Error al leer archivo db.json: ${e}`)
+    return res.status(500).json()
+  }
+
+  res.status(200).json(validWeatherData)
 })
 
 app.listen(port, () => {
