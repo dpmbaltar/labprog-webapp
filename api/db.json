@@ -98,6 +98,15 @@
       "precip": 35,
       "wind": 26,
       "windDir": "OSO"
+    },
+    {
+      "date": "2020-12-12T00:00:00.000Z",
+      "temp": 30,
+      "condition": "Soleado",
+      "icon": "images/sunny.png",
+      "precip": 20,
+      "wind": 13,
+      "windDir": "NE"
     }
   ]
 }
