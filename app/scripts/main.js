@@ -91,13 +91,14 @@ function weatherForecastHandler(params) {
   let { totalDays = -1 } = weatherForecastHandler
   let { page = 1 } = params || {}
   let from = days * (page - 1)
+  let pages = 0
 
   fetch(`/api/weather/forecast?from=${from}&days=${days}`)
     .then(response => response.json())
     .then(response => {
       let container = document.getElementById("forecast-content")
       container.innerHTML = ""
-
+      
       if (response.forecast) {
         // Recorrer arreglo de objetos obtenidos
         response.forecast.forEach(weather => {
@@ -119,11 +120,13 @@ function weatherForecastHandler(params) {
           row.setAttribute("class", "row")
           container.appendChild(row)
         })
-
+        
         // Mostrar páginas si es necesario
         if (totalDays < 0 || totalDays != response.total) {
           totalDays = response.total
-          showWeatherForecastPages(parseInt(totalDays / days))
+          pages = parseInt(totalDays / days)
+          pages+= (totalDays % days) > 0 ? 1 : 0
+          showWeatherForecastPages(pages)
         }
       }
 
