@@ -41,9 +41,9 @@ function newWeatherPage(pageNumber, buttonText) {
   let a = document.createElement("a")
   let li = document.createElement("li")
 
-  a.setAttribute("class", "page-link")
-  a.setAttribute("href", "#!/weather/forecast/" + pageNumber)
   a.textContent = buttonText
+  a.setAttribute("class", "page-link btn-dark")
+  a.setAttribute("href", "#!/weather/forecast/" + pageNumber)
 
   li.setAttribute("class", "page-item")
   li.appendChild(a)
@@ -74,17 +74,6 @@ function showWeatherForecastPages(totalPages) {
  * Obtener pronóstico para hoy
  */
 function weatherCurrentHandler() {
-  console.log("Getting current weather...")
-  weatherCurrentHandler.cacheTime = weatherCurrentHandler.cacheTime || 0
-
-  let time = new Date()
-  let elapsedTime = (time - weatherCurrentHandler.cacheTime) / 1000
-
-  if (elapsedTime < 30) {
-    console.log(`Cached current weather... Will update in ${30-elapsedTime} seconds`)
-    return activateSection("current")
-  }
-
   fetch('/api/weather/forecast?from=0&days=1')
     .then(response => response.json())
     .then(response => {
@@ -96,7 +85,6 @@ function weatherCurrentHandler() {
       getElementByName(section, "condition").textContent = weather.condition
       getElementByName(section, "wind").textContent = `${weather.windDir} ${weather.wind} km/h`
 
-      weatherCurrentHandler.cacheTime = new Date()
       activateSection("current")
     }).catch(error => {
       console.log(error)
