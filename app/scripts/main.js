@@ -109,20 +109,21 @@ function weatherCurrentHandler() {
 function weatherForecastHandler(params) {
   const days = 3 // Días por página
   let { totalDays = -1 } = weatherForecastHandler
-  let { page = 1 } = params
+  let { page = 1 } = params || {}
   let from = days * (page - 1)
 
   fetch(`/api/weather/forecast?from=${from}&days=${days}`)
     .then(response => response.json())
     .then(response => {
       let container = document.getElementById("forecast-content")
+      container.innerHTML = ""
 
       if (response.forecast) {
         // Recorrer arreglo de objetos obtenidos
         response.forecast.forEach(weather => {
           let row = newWeatherRow() // Crea la fila HTML
-          let dateOptions = { weekday: 'short', /*month: 'short',*/ day: 'numeric' };
-          let dateTimeFormat = new Intl.DateTimeFormat('es-AR', dateOptions);
+          let dateOptions = { weekday: 'short', day: 'numeric' }
+          let dateTimeFormat = new Intl.DateTimeFormat('es-AR', dateOptions)
 
           // Disponer los datos en las columnas
           getElementByName(row, "date").textContent = dateTimeFormat.format(new Date(weather.date))
@@ -160,6 +161,7 @@ router
   .on({
     '*': rootHandler,
     '/weather/current': weatherCurrentHandler,
+    '/weather/forecast': weatherForecastHandler,
     '/weather/forecast/:page': weatherForecastHandler
   })
   .resolve()
