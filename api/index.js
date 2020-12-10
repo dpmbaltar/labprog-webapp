@@ -14,6 +14,41 @@ const dbFile = 'api/db.json'
 const valid = require('./dbschema.js')
 
 /**
+ * Obtener pronóstico para una fecha
+ */
+app.get('/api/weather/:year/:month/:day', (req, res) => {
+  const { params } = req // const params = req.params
+  const { year = 1900, month = 1, day = 1 } = params
+  const { error, value:weatherDate } = joi.date().iso().validate(`${year}-${month}-${day}`)
+
+  if (error)
+    return res.status(200).json(error)
+
+  try {
+    // Leer datos del archivo
+    let rawdata = fs.readFileSync(dbFile)
+    let db = JSON.parse(rawdata)
+
+    // Buscar fecha
+    let found = db.forecast.find(weather => {
+      const d1 = Date.parse(weather.date)
+      const d2 = weatherDate
+      return d1.valueOf() === d2.valueOf()
+    })
+
+    // Devolver el elemento si fue encontrado
+    if (found)
+      res.status(200).json(found)
+    else
+      res.status(404).send()
+
+  } catch (e) {
+    console.log(`Error al leer archivo db.json: ${e}`)
+    return res.status(500).json()
+  }
+})
+
+/**
  * Obtener pronóstico actual
  */
 app.get('/api/weather/forecast', (req, res) => {
@@ -21,21 +56,26 @@ app.get('/api/weather/forecast', (req, res) => {
   const { error, value } = valid.weatherParamsSchema.validate(queryParams)
 
   if (error)
-    return res.status(400).json(error)
+    return res.status(200).json({error: error})
 
-  // Leer datos del archivo
-  let rawdata = fs.readFileSync(dbFile)
-  let db = JSON.parse(rawdata)
+  try {
+    // Leer datos del archivo
+    let rawdata = fs.readFileSync(dbFile)
+    let db = JSON.parse(rawdata)
 
-  // Estblecer params por defecto
-  let { from = 0, days = 1 } = value
-  let forecast = db.forecast.slice(from, from + days) // Devolver desde el elemento 0, cantidad de días
-  let total = db.forecast.length
+    // Establecer params por defecto
+    let { from = 0, days = 1 } = value
+    let forecast = db.forecast.slice(from, from + days) // Devolver desde el elemento 0, cantidad de días
+    let total = db.forecast.length
 
-  res.status(200).json({
-    total: total,
-    forecast: forecast
-  })
+    res.status(200).json({
+      total: total,
+      forecast: forecast
+    })
+  } catch (e) {
+    console.log(`Error al leer archivo db.json: ${e}`)
+    return res.status(500).json()
+  }
 })
 
 /**
@@ -46,7 +86,7 @@ app.post('/api/weather/create', (req, res) => {
   const { error, value:newValidWeather } = valid.weatherSchema.validate(newWeather)
 
   if (error)
-    return res.status(400).json({ error: error })
+    return res.status(200).json({ error: error })
 
   try {
     // Leer archivo dbschema.js
@@ -71,51 +111,12 @@ app.post('/api/weather/create', (req, res) => {
     // Guardar archivo modificado
     fs.writeFileSync(dbFile, data, 'utf8');
 
-  } catch (e) {
-    console.log(`Error al leer archivo db.json: ${e}`)
-    return res.status(500).json()
-  }
-
-  res.status(200).json(newValidWeather)
-})
-
-/**
- * Actualizar pronóstico
- */
-app.put('/api/weather/update/:year/:month/:day', (req, res) => {
-  const { params, body:weatherData } = req
-  const { year, month, day } = params
-  const { error, value:validWeatherData } = valid.weatherSchema.validate(weatherData)
-
-  if (error)
-    return res.status(400).json(error)
-
-  // Leer archivo dbschema.js
-  try {
-    // Leer archivo dbschema.js
-    let rawdata = fs.readFileSync(dbFile)
-    let db = JSON.parse(rawdata)
-    let found = db.forecast.find(element => {
-      const d1 = Date.parse(element.date)
-      const d2 = Date.parse(validWeatherData.date)
-      return d1.valueOf() === d2.valueOf()
-    })
-
-    // Verificar si el elemento existe
-    if (!found)
-      return res.status(400).json({error: 'El elemento no existe'})
-
-    // Modificar arreglo de datos
-
-    // Guardar archivo modificado
-    fs.writeFileSync(dbFile, data, 'utf8');
+    res.status(200).json(newValidWeather)
 
   } catch (e) {
     console.log(`Error al leer archivo db.json: ${e}`)
     return res.status(500).json()
   }
-
-  res.status(200).json(validWeatherData)
 })
 
 app.listen(port, () => {

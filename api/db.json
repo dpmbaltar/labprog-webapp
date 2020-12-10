@@ -49,7 +49,7 @@
       "date": "2020-12-01",
       "temp": 25,
       "condition": "Chubascos",
-      "icon": "images/shower.png",
+      "icon": "images/showers.png",
       "precip": 40,
       "wind": 19,
       "windDir": "E"
@@ -89,6 +89,15 @@
       "precip": 0,
       "wind": 26,
       "windDir": "N"
+    },
+    {
+      "date": "2020-12-11T00:00:00.000Z",
+      "temp": 27,
+      "condition": "Chubascos",
+      "icon": "images/showers.png",
+      "precip": 35,
+      "wind": 26,
+      "windDir": "OSO"
     }
   ]
 }
