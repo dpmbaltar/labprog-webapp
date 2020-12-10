@@ -29,7 +29,7 @@ app.get('/api/weather/forecast', (req, res) => {
 
   // Estblecer params por defecto
   let { from = 0, days = 1 } = value
-  let forecast = db.forecast.slice(from, days) // Devolver desde el elemento 0, cantidad de días
+  let forecast = db.forecast.slice(from, from + days) // Devolver desde el elemento 0, cantidad de días
   let total = db.forecast.length
 
   res.status(200).json({
