@@ -22,7 +22,7 @@ app.get('/api/weather/:year/:month/:day', (req, res) => {
   const { error, value:weatherDate } = joi.date().iso().validate(`${year}-${month}-${day}`)
 
   if (error)
-    return res.status(200).json(error)
+    return res.status(400).json({error: error})
 
   try {
     // Leer datos del archivo
@@ -56,7 +56,7 @@ app.get('/api/weather/forecast', (req, res) => {
   const { error, value } = valid.weatherParamsSchema.validate(queryParams)
 
   if (error)
-    return res.status(200).json({error: error})
+    return res.status(400).json({error: error})
 
   try {
     // Leer datos del archivo
@@ -86,7 +86,7 @@ app.post('/api/weather/create', (req, res) => {
   const { error, value:newValidWeather } = valid.weatherSchema.validate(newWeather)
 
   if (error)
-    return res.status(200).json({ error: error })
+    return res.status(400).json({ error: error })
 
   try {
     // Leer archivo dbschema.js
