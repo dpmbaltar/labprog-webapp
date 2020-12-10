@@ -1,8 +1,6 @@
 
 /**
  * Activa una sección <section> con id="sectionId", dentro del <main id="main">
- *
- * @param {String} sectionId el id de la sección
  */
 function activateSection(sectionId) {
   let main = document.getElementById("main")
@@ -14,29 +12,23 @@ function activateSection(sectionId) {
   section.style.display = "block"
 }
 
-function activatePage(pageNumber) {
-  let forecastContent = document.getElementById("forecast-content")
-  let forecastPage = document.getElementById("forecast-page-" + pageNumber)
-
-  forecastContent.querySelectorAll("div").forEach(element => {
-    element.setAttribute("class", "d-none")
-  })
-
-  if (!forecastPage) {
-
-  }
-  
-  forecastPage.setAttribute("class", "")
-}
-
+/**
+ * Devuelve un elemento contenido en otro por el atributo "data-name".
+ */
 function getElementByName(element, name) {
   return element.querySelector(`[data-name="${name}"]`)
 }
 
+/**
+ * Clona y devuelve una fila HTML para el pronóstico.
+ */
 function newWeatherRow() {
   return document.getElementById("forecast").getElementsByClassName("row")[0].cloneNode(true)
 }
 
+/**
+ * Crea y devuelve una nueva página del pronóstico.
+ */
 function newWeatherPage(pageNumber, buttonText) {
   let a = document.createElement("a")
   let li = document.createElement("li")
