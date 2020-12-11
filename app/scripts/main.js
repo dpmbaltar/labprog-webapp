@@ -39,7 +39,7 @@ function newWeatherPage(pageNumber, buttonText) {
 
   li.setAttribute("class", "page-item")
   li.appendChild(a)
-  
+
   return li
 }
 
@@ -52,7 +52,7 @@ function showWeatherForecastPages(totalPages) {
 
   if (totalPages <= 1)
     return pageContainer.setAttribute("class", "d-none")
-  
+
   let pageList = document.getElementById("forecast-page-list")
   pageList.innerHTML = ""
 
@@ -79,7 +79,7 @@ function weatherCurrentHandler() {
       getElementByName(section, "temp").textContent = `${weather.temp} °C`
       getElementByName(section, "condition").textContent = weather.condition
       getElementByName(section, "icon").alt = weather.condition
-      getElementByName(section, "icon").src = 'images/' + weather.icon
+      getElementByName(section, "icon").src = 'images/256/' + weather.icon
       getElementByName(section, "wind").textContent = `${weather.windDir} ${weather.wind} km/h`
 
       activateSection("current")
@@ -103,7 +103,7 @@ function weatherForecastHandler(params) {
     .then(response => {
       let container = document.getElementById("forecast-content")
       container.innerHTML = ""
-      
+
       if (response.forecast) {
         // Recorrer arreglo de objetos obtenidos
         response.forecast.forEach(weather => {
@@ -114,7 +114,7 @@ function weatherForecastHandler(params) {
           // Disponer los datos en las columnas
           getElementByName(row, "date").textContent = dateTimeFormat.format(new Date(weather.date))
           getElementByName(row, "temp").textContent = weather.temp
-          getElementByName(row, "icon").src = 'images/' + weather.icon
+          getElementByName(row, "icon").src = 'images/64/' + weather.icon
           getElementByName(row, "icon").alt = weather.condition
           getElementByName(row, "condition").textContent = weather.condition
           getElementByName(row, "precip").textContent = weather.precip
@@ -125,7 +125,7 @@ function weatherForecastHandler(params) {
           row.setAttribute("class", "row")
           container.appendChild(row)
         })
-        
+
         // Mostrar páginas si es necesario
         if (totalDays < 0 || totalDays != response.total) {
           totalDays = response.total

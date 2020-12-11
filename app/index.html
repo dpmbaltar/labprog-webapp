@@ -39,7 +39,7 @@
       <div class="current">
         <div class="today">
           <div class="icon">
-            <img src="images/weather.gif" width="310" data-name="icon" />
+            <img src="images/weather.gif" width="256" data-name="icon" />
           </div>
           <div class="temp">
             <h1 data-name="temp">&nbsp;</h1>
@@ -62,7 +62,7 @@
             <div class="temp">
               <h1 data-name="temp"></h1>
               <h2 data-name="condition"></h2>
-              <h3 data-name="wind"></h3>
+              <h3><img src="images/wind.png" /> <span data-name="wind"></span></h3>
             </div>
           </div>
         </div>
@@ -76,19 +76,14 @@
         <!-- Paginación -->
         <nav id="forecast-pagination" class="d-none" aria-label="">
           <ul id="forecast-page-list" class="pagination pagination-lg justify-content-center">
-            <!--<li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>-->
           </ul>
         </nav>
 
+        <!-- Contenido de las páginas -->
         <div id="forecast-content">
-
         </div>
 
-        <!-- Weather Row Template -->
+        <!-- Plantilla para filas de datos -->
         <div class="row d-none">
           <div class="col-lg">
             <span data-name="date"></span>
