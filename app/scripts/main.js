@@ -66,15 +66,20 @@ function showWeatherForecastPages(totalPages) {
  * Obtener pronóstico para hoy
  */
 function weatherCurrentHandler() {
-  fetch('/api/weather/forecast?from=0&days=1')
+  const date = new Date()
+  const dateString = date.toISOString().split('T')[0].replaceAll('-', '/')
+
+  fetch(`/api/weather/${dateString}`)
     .then(response => response.json())
     .then(response => {
-      let weather = response.forecast[0]
+      let weather = response
       let section = document.getElementById("current")
 
       // Mostrar datos
       getElementByName(section, "temp").textContent = `${weather.temp} °C`
       getElementByName(section, "condition").textContent = weather.condition
+      getElementByName(section, "icon").alt = weather.condition
+      getElementByName(section, "icon").src = 'images/' + weather.icon
       getElementByName(section, "wind").textContent = `${weather.windDir} ${weather.wind} km/h`
 
       activateSection("current")
@@ -109,7 +114,7 @@ function weatherForecastHandler(params) {
           // Disponer los datos en las columnas
           getElementByName(row, "date").textContent = dateTimeFormat.format(new Date(weather.date))
           getElementByName(row, "temp").textContent = weather.temp
-          getElementByName(row, "icon").src = weather.icon
+          getElementByName(row, "icon").src = 'images/' + weather.icon
           getElementByName(row, "icon").alt = weather.condition
           getElementByName(row, "condition").textContent = weather.condition
           getElementByName(row, "precip").textContent = weather.precip

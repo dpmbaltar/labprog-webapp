@@ -65,8 +65,19 @@ app.get('/api/weather/forecast', (req, res) => {
 
     // Establecer params por defecto
     let { from = 0, days = 1 } = value
-    let forecast = db.forecast.slice(from, from + days) // Devolver desde el elemento 0, cantidad de días
-    let total = db.forecast.length
+    let date = new Date(new Date().getTime()) //+ (from*24*60*60*1000));
+    
+    // Buscar días a partir de hoy
+    let found = db.forecast.find(weather => {
+      const d1 = parseInt(Date.parse(weather.date).valueOf()/1000/60/60/24)
+      const d2 = parseInt(date.valueOf()/1000/60/60/24)
+      return d1 == d2
+    })
+    
+    // Buscar "days" cantidad de días desde el día de hoy + "from" días
+    let start = db.forecast.indexOf(found)
+    let forecast = db.forecast.slice(from + start, from + start + days)
+    let total = db.forecast.length - start // Cantidad de días a paginar
 
     res.status(200).json({
       total: total,

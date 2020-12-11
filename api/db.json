@@ -4,7 +4,7 @@
       "date": "2020-11-26",
       "temp": 17,
       "condition": "Soleado",
-      "icon": "images/sunny.png",
+      "icon": "sunny.png",
       "precip": 0,
       "wind": 20,
       "windDir": "E"
@@ -13,7 +13,7 @@
       "date": "2020-11-27",
       "temp": 27,
       "condition": "Soleado",
-      "icon": "images/sunny.png",
+      "icon": "sunny.png",
       "precip": 0,
       "wind": 21,
       "windDir": "ENE"
@@ -22,7 +22,7 @@
       "date": "2020-11-28",
       "temp": 27,
       "condition": "Tormentas",
-      "icon": "images/storm.png",
+      "icon": "storm.png",
       "precip": 40,
       "wind": 20,
       "windDir": "ENE"
@@ -31,7 +31,7 @@
       "date": "2020-11-29",
       "temp": 33,
       "condition": "Parcialmente nublado",
-      "icon": "images/partly_cloudy.png",
+      "icon": "partly_cloudy.png",
       "precip": 20,
       "wind": 12,
       "windDir": "S"
@@ -40,7 +40,7 @@
       "date": "2020-11-30",
       "temp": 23,
       "condition": "Tormentas",
-      "icon": "images/storm.png",
+      "icon": "storm.png",
       "precip": 40,
       "wind": 29,
       "windDir": "ESE"
@@ -49,7 +49,7 @@
       "date": "2020-12-01",
       "temp": 25,
       "condition": "Chubascos",
-      "icon": "images/showers.png",
+      "icon": "showers.png",
       "precip": 40,
       "wind": 19,
       "windDir": "E"
@@ -58,7 +58,7 @@
       "date": "2020-12-02",
       "temp": 28,
       "condition": "Parcialmente nublado",
-      "icon": "images/partly_cloudy.png",
+      "icon": "partly_cloudy.png",
       "precip": 20,
       "wind": 13,
       "windDir": "NE"
@@ -67,7 +67,7 @@
       "date": "2020-12-03",
       "temp": 26,
       "condition": "Mayormente soleado",
-      "icon": "images/cloud.png",
+      "icon": "cloud.png",
       "precip": 10,
       "wind": 20,
       "windDir": "ESE"
@@ -76,7 +76,7 @@
       "date": "2020-12-04",
       "temp": 26,
       "condition": "Parcialmente nublado",
-      "icon": "images/partly_cloudy.png",
+      "icon": "partly_cloudy.png",
       "precip": 20,
       "wind": 19,
       "windDir": "ESE"
@@ -85,7 +85,7 @@
       "date": "2020-12-10T00:00:00.000Z",
       "temp": 32,
       "condition": "Soleado",
-      "icon": "images/sunny.png",
+      "icon": "sunny.png",
       "precip": 0,
       "wind": 26,
       "windDir": "N"
@@ -94,7 +94,7 @@
       "date": "2020-12-11T00:00:00.000Z",
       "temp": 27,
       "condition": "Chubascos",
-      "icon": "images/showers.png",
+      "icon": "showers.png",
       "precip": 35,
       "wind": 26,
       "windDir": "OSO"
@@ -103,10 +103,82 @@
       "date": "2020-12-12T00:00:00.000Z",
       "temp": 30,
       "condition": "Soleado",
-      "icon": "images/sunny.png",
+      "icon": "sunny.png",
       "precip": 20,
       "wind": 13,
       "windDir": "NE"
+    },
+    {
+      "date": "2020-12-13T00:00:00.000Z",
+      "temp": 24,
+      "condition": "Chubascos",
+      "icon": "showers.png",
+      "precip": 35,
+      "wind": 24,
+      "windDir": "SSO"
+    },
+    {
+      "date": "2020-12-14T00:00:00.000Z",
+      "temp": 24,
+      "condition": "Soleado",
+      "icon": "sunny.png",
+      "precip": 0,
+      "wind": 13,
+      "windDir": "NNO"
+    },
+    {
+      "date": "2020-12-15T00:00:00.000Z",
+      "temp": 25,
+      "condition": "Parcialmente nublado",
+      "icon": "partly_cloudy.png",
+      "precip": 20,
+      "wind": 25,
+      "windDir": "SSO"
+    },
+    {
+      "date": "2020-12-16T00:00:00.000Z",
+      "temp": 24,
+      "condition": "Soleado",
+      "icon": "sunny.png",
+      "precip": 5,
+      "wind": 17,
+      "windDir": "E"
+    },
+    {
+      "date": "2020-12-17T00:00:00.000Z",
+      "temp": 28,
+      "condition": "Soleado",
+      "icon": "sunny.png",
+      "precip": 10,
+      "wind": 17,
+      "windDir": "NNE"
+    },
+    {
+      "date": "2020-12-18T00:00:00.000Z",
+      "temp": 28,
+      "condition": "Mayormente soleado",
+      "icon": "cloud.png",
+      "precip": 10,
+      "wind": 18,
+      "windDir": "NNE"
+    },
+    {
+      "date": "2020-12-19T00:00:00.000Z",
+      "temp": 28,
+      "condition": "Parcialmente nublado",
+      "icon": "partly_cloudy.png",
+      "precip": 15,
+      "wind": 20,
+      "windDir": "NE"
+    },
+    {
+      "date": "2020-12-20T00:00:00.000Z",
+      "temp": 25,
+      "condition": "Parcialmente nublado",
+      "icon": "partly_cloudy.png",
+      "precip": 25,
+      "wind": 19,
+      "windDir": "ESE"
     }
   ]
 }
